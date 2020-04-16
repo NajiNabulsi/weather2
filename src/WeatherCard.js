@@ -19,13 +19,15 @@ const WeatherCard = () => {
   const [search, setSearch] = useState();
   // fetch weather function
   const getWeather = async () => {
-    // const key = "3a5ee4b49ee3ff6219320e914f18ab9a";
+    const key = "3a5ee4b49ee3ff6219320e914f18ab9a";
 
     try {
+      // const apiCall = await fetch(
+      //   `http://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
+      // );
       const apiCall = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
+        `http://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${key}&units=metric`
       );
-
       const response = await apiCall.json();
 
       setVal({
