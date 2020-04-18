@@ -17,17 +17,14 @@ const WeatherCard = () => {
 
   const [qurey, setQurey] = useState("Amsterdam");
   const [search, setSearch] = useState();
+
   // fetch weather function
   const getWeather = async () => {
-    const key = "3a5ee4b49ee3ff6219320e914f18ab9a";
-
     try {
-      // const apiCall = await fetch(
-      //   `http://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
-      // );
       const apiCall = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${key}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
       );
+
       const response = await apiCall.json();
 
       setVal({
@@ -66,7 +63,7 @@ const WeatherCard = () => {
             <input
               type="text"
               className="input"
-              placeholder=""
+              placeholder="please enter a city name"
               name="city"
               autoComplete="off"
               onChange={getCityName}
