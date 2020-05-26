@@ -57,3 +57,13 @@ border: 1px solid black;
   font-size: 2rem;
   padding: 10px;
 }
+
+.loding{
+  text-align: center;
+  background-color: rgb(5, 133, 69);
+  color: white;
+  border: 1px solid black;
+  width: 40%;
+  margin: 30px auto;
+
+}

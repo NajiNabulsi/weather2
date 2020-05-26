@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
+import Form from "./Form";
+import CityInfo from "./CityInfo";
 
 // use states
 const WeatherCard = () => {
   const [
-    val = {
+    data = {
       city: undefined,
       country: undefined,
       main: undefined,
       temp_max: null,
       temp_min: null,
-      description: "",
-      error: undefined,
+      loction: "",
     },
-    setVal,
+    setData,
   ] = useState();
 
   const [qurey, setQurey] = useState("Amsterdam");
   const [search, setSearch] = useState();
+  const [isLoding, setIsLoding] = useState(false);
+  const [hasErr, setHasErr] = useState(false);
 
   // fetch weather function
   const getWeather = async () => {
+    setHasErr(false)
+    setIsLoding(true);
     try {
       const apiCall = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${qurey}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
@@ -27,16 +32,18 @@ const WeatherCard = () => {
 
       const response = await apiCall.json();
 
-      setVal({
+      setData({
         city: `${response.name}, ${response.sys.country}`,
         main: response.weather[0].main,
         temp_max: response.main.temp_max,
         temp_min: response.main.temp_min,
-        description: response.weather[0].description,
-        error: false,
+        loction: `${response.coord.lat}, ${response.coord.lon}`
       });
+
+      setIsLoding(false);
     } catch {
-      setVal({ error: true });
+      setHasErr(true)
+      setIsLoding(false)
     }
   };
 
@@ -57,39 +64,16 @@ const WeatherCard = () => {
 
   return (
     <div onLoad={getWeather}>
-      <div className="form">
-        <form onSubmit={getSearch}>
-          <div className="search">
-            <input
-              type="text"
-              className="input"
-              placeholder="please enter a city name"
-              name="city"
-              autoComplete="off"
-              onChange={getCityName}
-            />
-            <button className="btn">Get Weather</button>
-          </div>
-        </form>
-      </div>
+      <Form onSubmit={getSearch} onChange={getCityName} value={search} />
+      {isLoding && <p className='loding' >Please wait LODING....</p>}
+      
+      {hasErr ? 
+      <p className="err" role="alert">Please Enter correct City ...!</p> :      
+        <CityInfo val={data} />       
+      }
 
-      {val.city && (
-        <div className="weCard">
-          <h1>{val.city}</h1>
-          <h2>{val.main}</h2>
-          <h3>{val.description}</h3>
-          <h3>{val.temp_min}</h3>
-          <h3>{val.temp_max}</h3>
-        </div>
-      )}
-
-      {val.error && (
-        <div className="err" role="alert">
-          Please Enter City ...!
-        </div>
-      )}
-    </div>
-  );
+     </div>
+   );
 };
 
 export default WeatherCard;
