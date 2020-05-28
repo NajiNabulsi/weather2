@@ -23,7 +23,7 @@ const WeatherCard = () => {
 
   // fetch weather function
   const getWeather = async () => {
-    setHasErr(false)
+    setHasErr(false);
     setIsLoding(true);
     try {
       const apiCall = await fetch(
@@ -37,13 +37,13 @@ const WeatherCard = () => {
         main: response.weather[0].main,
         temp_max: response.main.temp_max,
         temp_min: response.main.temp_min,
-        loction: `${response.coord.lat}, ${response.coord.lon}`
+        loction: `${response.coord.lat}, ${response.coord.lon}`,
       });
 
       setIsLoding(false);
     } catch {
-      setHasErr(true)
-      setIsLoding(false)
+      setHasErr(true);
+      setIsLoding(false);
     }
   };
 
@@ -65,15 +65,17 @@ const WeatherCard = () => {
   return (
     <div onLoad={getWeather}>
       <Form onSubmit={getSearch} onChange={getCityName} value={search} />
-      {isLoding && <p className='loding' >Please wait LODING....</p>}
-      
-      {hasErr ? 
-      <p className="err" role="alert">Please Enter correct City ...!</p> :      
-        <CityInfo val={data} />       
-      }
+      {isLoding && <p className="loding">Please wait LODING....</p>}
 
-     </div>
-   );
+      {hasErr ? (
+        <p className="err" role="alert">
+          Please Enter correct City ...!
+        </p>
+      ) : (
+        <CityInfo val={data} />
+      )}
+    </div>
+  );
 };
 
 export default WeatherCard;
